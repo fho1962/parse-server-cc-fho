@@ -1,4 +1,4 @@
-Parse.Cloud.define('hello', function(req, res) {
-  var d = Date();
-  res.success('hello world: ' + d.getTime());
+Parse.Cloud.define('hello1', function(req, res) {
+  var datum = Date().valueOf();
+  res.success('hello world: ' + datum);
 });
