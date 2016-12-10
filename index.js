@@ -35,7 +35,7 @@ var api = new ParseServer({
 	publicServerURL: process.env.SERVER_URL || 'http://localhost:1337/parse',
 	/* This will appear in the subject and body of the emails that are sent */
 	appName: process.env.APP_NAME || "Weblio",
-
+    /* The email adapter */
 	emailAdapter: {
 		module: 'parse-server-simple-mailgun-adapter',
 		options: {
