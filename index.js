@@ -76,7 +76,10 @@ app.get('/test', function (req, res) {
 	res.sendFile(path.join(__dirname, '/public/test.html'));
 });
 
-
+//Retrieval Tool
+app.get('/rt', function (req, res) {
+	res.sendFile(path.join(__dirname, '/protected/retrievalTool.html'));
+});
 
 var port = process.env.PORT || 1337;
 var httpServer = require('http').createServer(app);
