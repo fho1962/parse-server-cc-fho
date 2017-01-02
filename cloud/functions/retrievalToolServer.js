@@ -25,4 +25,4 @@ Parse.Cloud.define("checkNowServer", function(request, response) {
        }
      });
    });
-}
+});

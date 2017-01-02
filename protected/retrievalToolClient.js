@@ -25,12 +25,12 @@
    }
    
    function checkNow() {     
-     if(!checkUser(u_email)) {
-       document.getElementById("ok_class").style.display = "none";
-       document.getElementById("error_class").innerHTML = "Please login first";
-       document.getElementById("error_class").style.display = "block";
-       return;
-     }
+     //if(!checkUser(u_email)) {
+     //  document.getElementById("ok_class").style.display = "none";
+     //  document.getElementById("error_class").innerHTML = "Please login first";
+     //  document.getElementById("error_class").style.display = "block";
+     //  return;
+     //}
      var class_name = document.getElementById("class_name").value;
      Parse.Cloud.run("checkNowServer", {inClass: class_name}, { 
        success: function (response) {
@@ -40,11 +40,11 @@
      }, 
        error: function (err) {
          document.getElementById("ok_class").style.display = "none";
-         document.getElementById("error_class").innerHTML = class_name + ": " " + err;
+         document.getElementById("error_class").innerHTML = class_name + ": " + err;
          document.getElementById("error_class").style.display = "block";
          return;
       }
-     }).then function() {
+     }).then(function() {
        //attr_list = Object.getOwnPropertyNames(result.attributes);
        var selBox = document.getElementById("attr_sel");
        var selBoxLen = selBox.length;
@@ -61,7 +61,7 @@
        document.getElementById("error_class").style.display = "none";
        document.getElementById("ok_class").innerHTML = "Class '" + c_name + "' is available";
        document.getElementById("ok_class").style.display = "block";
-     }  
+     });  
   }  
    
    function downloadNow() {
