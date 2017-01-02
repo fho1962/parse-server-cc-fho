@@ -25,12 +25,12 @@
    }
    
    function checkNow() {     
-     //if(!checkUser(u_email)) {
-     //  document.getElementById("ok_class").style.display = "none";
-     //  document.getElementById("error_class").innerHTML = "Please login first";
-     //  document.getElementById("error_class").style.display = "block";
-     //  return;
-     //}
+     if(!checkUser(u_email)) {
+       document.getElementById("ok_class").style.display = "none";
+       document.getElementById("error_class").innerHTML = "Please login first";
+       document.getElementById("error_class").style.display = "block";
+       return;
+     }
      var class_name = document.getElementById("class_name").value;
      Parse.Cloud.run("checkNowServer", {inClass: class_name}, { 
        success: function (response) {
@@ -39,8 +39,9 @@
          c_name = class_name;
      }, 
        error: function (err) {
+         console.log(err);
          document.getElementById("ok_class").style.display = "none";
-         document.getElementById("error_class").innerHTML = class_name + ": " + err;
+         document.getElementById("error_class").innerHTML = "Class '" + class_name + "': " + err.message + " code(" + err.code + ")";
          document.getElementById("error_class").style.display = "block";
          return;
       }

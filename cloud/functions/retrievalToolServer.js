@@ -9,7 +9,7 @@ Parse.Cloud.define("checkNowServer", function(request, response) {
    query.count().then(function(count) {
      if (count == 0) {
        console.log();
-       response.error("Class has no data."); 
+       response.error("Class has no data or does not exist."); 
        return;       
      }
    }, function (error) {
@@ -19,10 +19,10 @@ Parse.Cloud.define("checkNowServer", function(request, response) {
      query.first({
        success: function(result) {
          var attr_list = Object.getOwnPropertyNames(result.attributes);
-         response.error(attr_list);
+         response.success(attr_list);
        },
        error: function(error) {
-         response.error("Class does not exist.");
+         response.error("Unknown Error on 'query.first'.");
        }
      });
    });
