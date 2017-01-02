@@ -3,11 +3,12 @@
 Parse.Cloud.define("checkNowServer", function(request, response) {
 
   Parse.Cloud.useMasterKey();
-  var class_name = req.params.inClass;
+  var class_name = request.params.inClass;
   
    var query = new Parse.Query(class_name);
    query.count().then(function(count) {
      if (count == 0) {
+       console.log();
        response.error("Class has no data."); 
        return;       
      }
