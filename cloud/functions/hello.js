@@ -1,3 +1,4 @@
 Parse.Cloud.define('hello', function(req, res) {
-  res.success('hello world');
+  var myParm = request.params.myString;
+  res.success('hello world' + myParm);
 });
