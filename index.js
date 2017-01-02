@@ -58,9 +58,15 @@ var api = new ParseServer({
 
 var app = express();
 
+var basicAuth = require('basic-auth-connect');
+//app.use(basicAuth('admin', 'admin'));
+var BasicAuth = basicAuth(function(user, pass) {
+ return user === 'admin' && pass === 'admin'; // can be extended to use environment variables
+});
+
 // Serve static assets from the /public folder
 app.use('/public', express.static(path.join(__dirname, '/public')));
-app.use('/protected', express.static(path.join(__dirname, '/protected')));
+app.use('/protected', BasicAuth, express.static(path.join(__dirname, '/protected')));
 
 // Serve the Parse API on the /parse URL prefix
 var mountPath = process.env.PARSE_MOUNT || '/parse';
@@ -78,7 +84,7 @@ app.get('/test', function (req, res) {
 });
 
 //Retrieval Tool
-app.get('/rt', function (req, res) {
+app.get('/rt', BasicAuth, function (req, res) {
 	res.sendFile(path.join(__dirname, '/protected/retrievalTool.html'));
 });
 
