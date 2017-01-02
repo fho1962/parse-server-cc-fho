@@ -32,51 +32,37 @@
        return;
      }
      var class_name = document.getElementById("class_name").value;
-     var query = new Parse.Query(class_name);
-     query.count().then(function(count) {
-       //console.log("count: " + count);
-       if (count == 0) {
+     Parse.Cloud.run("checkNowServer", {inClass: class_name}, { 
+       success: function (response) {
+         console.log(response);
+         attr_list = response;
+         c_name = class_name;
+     }, 
+       error: function (err) {
          document.getElementById("ok_class").style.display = "none";
-         document.getElementById("error_class").innerHTML = "Class '" + class_name + "' does not exist or has no data.";
+         document.getElementById("error_class").innerHTML = class_name + ": " " + err;
          document.getElementById("error_class").style.display = "block";
-         var selBox = document.getElementById("attr_sel");
-         var selBoxLen = selBox.length;
-         for (i = selBoxLen; i > 0;  i--) {
-           selBox.removeChild(selBox.options[i-1]);
-         }
          return;
+      }
+     }).then function() {
+       //attr_list = Object.getOwnPropertyNames(result.attributes);
+       var selBox = document.getElementById("attr_sel");
+       var selBoxLen = selBox.length;
+       for (i = selBoxLen; i > 0;  i--) {
+         selBox.removeChild(selBox.options[i-1]);
        }
-     }).then(function() {
-       query.first({
-         success: function(result) {
-           c_name = class_name;
-           // fill select box
-           attr_list = Object.getOwnPropertyNames(result.attributes);
-           var selBox = document.getElementById("attr_sel");
-           var selBoxLen = selBox.length;
-           for (i = selBoxLen; i > 0;  i--) {
-             selBox.removeChild(selBox.options[i-1]);
-           }
-           for (i = 0; i < Object.getOwnPropertyNames(result.attributes).length; i++) {
-             var doc_e = document.createElement("option");
-             doc_e.setAttribute("value", Object.getOwnPropertyNames(result.attributes)[i]);
-             var doc_t = document.createTextNode(Object.getOwnPropertyNames(result.attributes)[i]);
-             doc_e.appendChild(doc_t);
-             selBox.appendChild(doc_e);
-           }
-           document.getElementById("error_class").style.display = "none";
-           document.getElementById("ok_class").innerHTML = "Class '" + c_name + "' is available";
-           document.getElementById("ok_class").style.display = "block";
-         },
-         error: function(error) {
-           document.getElementById("ok_class").style.display = "none";
-           document.getElementById("error_class").innerHTML = "Unknown error occured: " + error;
-           document.getElementById("error_class").style.display = "block";
-           return;
-         }
-       });
-     });
-   }
+       for (i = 0; i < attr_list.length; i++) {
+         var doc_e = document.createElement("option");
+         doc_e.setAttribute("value", attr_list[i]);
+         var doc_t = document.createTextNode(attr_list[i]);
+         doc_e.appendChild(doc_t);
+         selBox.appendChild(doc_e);
+       }
+       document.getElementById("error_class").style.display = "none";
+       document.getElementById("ok_class").innerHTML = "Class '" + c_name + "' is available";
+       document.getElementById("ok_class").style.display = "block";
+     }  
+  }  
    
    function downloadNow() {
      if(!checkUser(u_email)) {
