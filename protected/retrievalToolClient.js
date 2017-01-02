@@ -17,6 +17,8 @@
        document.getElementById("ok_user").style.display = "none";
        document.getElementById("error_user").innerHTML = "Login failed";
        document.getElementById("error_user").style.display = "block";
+       hideDiagnostics("class");
+       hideDiagnostics("download");
        u_email = "";
      });
    }
@@ -37,14 +39,10 @@
      }, 
        error: function (err) {
          console.log(err);
-         var selBox = document.getElementById("attr_sel");
-         var selBoxLen = selBox.length;
-         for (i = selBoxLen; i > 0;  i--) {
-           selBox.removeChild(selBox.options[i-1]);
-         }
          document.getElementById("ok_class").style.display = "none";
          document.getElementById("error_class").innerHTML = "Class '" + class_name + "': " + err.message + " code(" + err.code + ")";
          document.getElementById("error_class").style.display = "block";
+         hideDiagnostics("download");
          return;
       }
      }).then(function() {
@@ -101,13 +99,31 @@
      Parse.initialize("myAppID-FF09EF7AD06890EE");
      Parse.serverURL = 'https://parse-server-cc-fho.herokuapp.com/parse';
      <!-- Initially hide diagnostic elements -->
-     document.getElementById("ok_user").style.display = "none";
-     document.getElementById("error_user").style.display = "none";
-     document.getElementById("ok_class").style.display = "none";
-     document.getElementById("error_class").style.display = "none";
-     document.getElementById("ok_download").style.display = "none";
-     document.getElementById("error_download").style.display = "none";
-     document.getElementById("link_download").style.display = "none";
+     hideDiagnostics("all");
+   }
+   
+   function hideDiagnostics(scope) {
+       
+     if (scope == "all" || scope == "user") {
+       document.getElementById("ok_user").style.display = "none";
+       document.getElementById("error_user").style.display = "none";     
+     }
+     if (scope == "all" || scope == "class") {
+       document.getElementById("class_name").value = "";
+       document.getElementById("ok_class").style.display = "none";
+       document.getElementById("error_class").style.display = "none";     
+     }
+     if (scope == "all" || scope == "download") {
+       document.getElementById("ok_download").style.display = "none";
+       document.getElementById("error_download").style.display = "none";
+       document.getElementById("link_download").style.display = "none"; 
+       document.getElementById("user_comment").value = "";
+       var selBox = document.getElementById("attr_sel");
+       var selBoxLen = selBox.length;
+       for (i = selBoxLen; i > 0;  i--) {
+         selBox.removeChild(selBox.options[i-1]);
+       }       
+     }
    }
    
    // arguments: reference to select list - copied and adopted from: http://www.dyn-web.com/tutorials/forms/select/multi-selected.php
