@@ -64,9 +64,9 @@ var authPW = process.env.AUTH_USER_PASSWORD || 'admin'; // ** MUST ADAPT FOR PRO
 
 var basicAuth = require('basic-auth-connect');
 app.use(basicAuth(authUser, authPW));
-//var BasicAuth = basicAuth(function(user, pass) {
-// return user === authUser && pass === authPW; 
-//});
+var BasicAuth = basicAuth(function(user, pass) {
+ return user === authUser && pass === authPW; 
+});
 
 // Serve static assets from the /public folder
 app.use('/public', express.static(path.join(__dirname, '/public')));
